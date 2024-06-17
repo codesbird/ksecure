@@ -13,7 +13,7 @@ This project would have been completely impossible without the paper *Dark Patte
 </p>
 
 ## Dark Patterns?
-Dark patterns are design tricks used to influence the way users interact with software. While some dark patterns are harmless, like emphasizing signup buttons with color, others can be more malicious in problematic. In the context of online stores, dark patterns can be used to nudge buyers into buying items they might not need. For further information on dark patterns, check out [this website](https://darkpatterns.org). Created by the man who coined the term ‘dark patterns,’ the site will teach you how to recognize the different kinds of dark patterns you may encounter.
+Dark patterns are design tricks used to influence the way users interact with software. While some dark patterns are harmless, like emphasizing signup buttons with color, others can be more malicious in problematic. In the context of online stores, dark patterns can be used to nudge buyers into buying items they might not need. For further information on dark patterns, check out [this website](https://projectksecure.blogspot.com/). Created by the man who coined the term ‘dark patterns,’ the site will teach you how to recognize the different kinds of dark patterns you may encounter.
 ## Tech Stack
 The Chrome Extension front-end that scrapes the active web page is written in Javascript. For the back-end, a Python server running Flask interfaces Bernoulli Naive Bayes models to classify tokens of text sent to it. To train these algorithms, datasets from Princeton University researchers along with manually annotated datasets were used.
 ## Installation
@@ -25,7 +25,12 @@ Install the Chrome extension:
 1. Navigate to chrome://extensions
 2. Enable "Developer mode" by toggling the switch at the top right of the page
 3. Click the "Load unpacked" button.
-4. Navigate to the repository directory, and select the folder `app` for installation
+4. Navigate to the repository directory, and select the folder `extension` for installation
 5. Ensure that the extension is enabled, and if so, the extension has been successfully installed!
 ## Reference
 Mathur, A., Acar, G., Friedman, M. J., Lucherini, E., Mayer, J., Chetty, M., & Narayanan, A. (2019). Dark Patterns at Scale: Findings from a Crawl of 11K Shopping Websites. Proceedings of the ACM on Human-Computer Interaction, 3(CSCW), 81.
+
+#RUN THE SERVER
+Open the server folder in Visual Studio Code
+#Run    !pip install -r requirements.txt    OR !python -m pip install -r requirements.txt
+
