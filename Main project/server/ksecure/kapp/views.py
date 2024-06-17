@@ -13,33 +13,29 @@ category_vect = load('category_vectorizer.joblib')
 
 @csrf_exempt
 def main(request):
-    print("The request is :",request.method)
     
     if request.method == 'POST':
 
         data = json.loads(request.body).get('tokens', [])
-        print("the data is :",data)
+
         output = []
 
         for token in data:
             result = presence_classifier.predict(presence_vect.transform([token]))
+
             if result == 'Dark':
                 cat = category_classifier.predict(category_vect.transform([token]))
                 output.append(cat[0])
+
             else:
                 output.append(result[0])
 
-        dark = [data[i] for i in range(len(output)) if 'Dark' in output[i]]
-        
-        for d in dark:
-            print(d)
-
-        print(dark)
-
-        print(data)
+        # dark = [data[i] for i in range(len(output)) if 'Dark' == output[i]]
+        dark = [data[i] for i in range(len(output)) if output[i] == 'Dark']
+        print(len(output))
+        print([item for item in output if item!='Not Dark'])
 
         message = {'result': output}
-        print(message)
 
         return JsonResponse(message)
 

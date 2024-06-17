@@ -1,5 +1,8 @@
 // import {allIgnoreChildren,segments} from "./block_segment";
 
+let trapedElements;
+let trapedElementsNavigate = [];
+let countIndex = 0;
 const endpoint = "http://127.0.0.1:8000/";
 const descriptions = {
     "Sneaking": "Coerces users to act in ways that they would not normally act by obscuring information.",
@@ -523,15 +526,15 @@ function segments(element) {
 };
 
 
-
 function scrape() {
     // website has already been analyzed
-    if (document.getElementById("insite_count")) {
-        return;
-    }
+    // if (document.getElementById("insite_count")) {
+    //     return;
+    // }
 
     // aggregate all DOM elements on the page
     let elements = segments(document.body);
+    trapedElements = elements;
     let filtered_elements = [];
 
     for (let i = 0; i < elements.length; i++) {
@@ -553,32 +556,39 @@ function scrape() {
         body: JSON.stringify({ tokens: filtered_elements }),
     })
         .then((resp) => resp.json())
-        .then((data) => {
-            json = data;
-            console.log(data)
+        .then((resp) => {
+            result = resp.result
+            console.log(result)
+
             let dp_count = 0;
             let element_index = 0;
-
+            // let result = ['Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Social Proof', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Urgency', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Urgency', 'Not Dark', 'Not Dark', 'Misdirection', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Scarcity', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Social Proof', 'Not Dark', 'Urgency', 'Misdirection', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Misdirection', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Scarcity', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark', 'Not Dark'];
+            trapedElementsNavigate = [];
             for (let i = 0; i < elements.length; i++) {
-                if (elements[i].innerText != undefined) {
-                    let text = elements[i].innerText.trim().replace(/\t/g, " ");
-                    if (text.length == 0) {
+                if (elements[i].innerText == undefined) {
+                    continue;
+                }
+                
+                let text = elements[i].innerText.replace(/\t/g, " ");
+                
+                if (text.length > 0) {
+                    if (result[dp_count] === "Not Dark") {
+                        dp_count++;
                         continue;
                     }
-
-                    if (json.result[i] !== "Not Dark") {
-                        highlight(elements[element_index], json.result[i]);
-                        dp_count++;
-                    }
-                    element_index++;
+                    
+                    highlight(elements[i], result[dp_count]);
+                    trapedElementsNavigate.push(elements[i])
+                    console.log(elements[i], result[dp_count]);
+                    dp_count++;
                 }
             }
-
+            
             // store number of dark patterns
             let g = document.createElement("div");
             g.id = "insite_count";
-            g.value = dp_count;
-            g.style.opacity = 0;
+            g.value = trapedElementsNavigate.length;
+            g.style.opacity = 1;
             g.style.position = "fixed";
             document.body.appendChild(g);
             sendDarkPatterns(g.value);
@@ -614,13 +624,39 @@ function highlight(element, type) {
 }
 
 function sendDarkPatterns(number) {
+
     chrome.runtime.sendMessage({
         message: "update_current_count",
         count: number,
     });
 }
 
+function nextTrap() {
+    trapedElementsNavigate[countIndex].style.backgroundColor = 'rgb(247, 230, 96)';
 
+    countIndex = (countIndex + 1) % trapedElementsNavigate.length;
+
+    trapedElementsNavigate[countIndex].style.backgroundColor = '#edff00';
+    trapedElementsNavigate[countIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    chrome.runtime.sendMessage({
+        message: "update trap",
+        count: `${countIndex+1}/${trapedElementsNavigate.length}`,
+    });
+
+}
+function preTrap() {
+    trapedElementsNavigate[countIndex].style.backgroundColor = 'rgb(247, 230, 96)';
+    countIndex = ('', countIndex - 1 + trapedElementsNavigate.length) % trapedElementsNavigate.length;
+    trapedElementsNavigate[countIndex].style.backgroundColor = '#edff00';
+
+    trapedElementsNavigate[countIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    chrome.runtime.sendMessage({
+        message: "update trap",
+        count: `${countIndex+1}/${trapedElementsNavigate.length}`,
+
+    });
+}
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
@@ -631,6 +667,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     } else if (request.message === "popup_open") {
         sendResponse({ status: "Content script received 'popup_open'" });
 
+    }
+    else if (request.message == 'next') {
+        nextTrap()
+    }
+    else if (request.message == 'pre') {
+        preTrap()
     }
 
 });

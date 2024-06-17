@@ -43,6 +43,8 @@ a:link, a:visited, a:hover, a:active {
     box-shadow: 0 0 5px;
     padding: 7px;
     border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
 
 }
 
@@ -51,12 +53,16 @@ a:link, a:visited, a:hover, a:active {
     justify-content: space-around;
 }
 .nagivations button{
-    width: 90px;
     background-color: #41C46E;
     color: white;
     outline: none;
     border: none;
     border-radius: 5px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 3px;
 
 }
 

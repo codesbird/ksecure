@@ -8,6 +8,91 @@
     <link rel="stylesheet" href="css/popup.css" type="text/css">
     <script src="js/popup.js" type="module"></script>
 
+    <style>
+    .countbox{
+        display: flex;
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+    .countanimation{
+        display: inline-block !important;
+    }
+    .lds-ellipsis,
+    .lds-ellipsis div {
+    box-sizing: border-box;
+    }
+    .lds-ellipsis {
+    display:none ;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    
+    }
+    .lds-ellipsis div {
+    position: absolute;
+    top: 33.33333px;
+    width: 15.33333px;
+    height: 15.33333px;
+    border-radius: 50%;
+    background: currentColor;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+    }
+    .lds-ellipsis div:nth-child(1) {
+    left: 8px;
+    animation: lds-ellipsis1 0.6s infinite;
+    background-color: rgb(255, 0, 119);
+
+    }
+    .lds-ellipsis div:nth-child(2) {
+    left: 8px;
+    animation: lds-ellipsis2 0.6s infinite;
+    background-color: rgb(0, 195, 255);
+
+    }
+    .lds-ellipsis div:nth-child(3) {
+    left: 32px;
+    animation: lds-ellipsis2 0.6s infinite;
+    background-color: rgb(255, 251, 0);
+
+    }
+    .lds-ellipsis div:nth-child(4) {
+    left: 56px;
+    animation: lds-ellipsis3 0.6s infinite;
+    background-color: rgb(0, 255, 255);
+
+    }
+
+    @keyframes lds-ellipsis1 {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+    }
+    @keyframes lds-ellipsis3 {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+    }
+    @keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(24px, 0);
+    }
+    }
+
+   
+
+    </style>
 </head>
 
 <body>
@@ -18,30 +103,33 @@
     <div class="modal-content">
         <div class="container">
             <p class="label">dark patterns</p>
-            <p class="number">---</p>
+            <div class="countbox">
+                <div id="countanimationid" class="lds-ellipsis">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <p id="showanimation" class="number">---</p>
+            </dvi>
         </div>
 
         
-        <button class="analyze-button" type="button">ANALYZE SITE</button>
+        <button class="analyze-button" id="analyzebutton" type="button">ANALYZE SITE</button>
         
         <div class="navigation-box" id="navigation_box">
-            <span style="font-size: 13px;" id="navigation_count">20/73</span>
+            <span style="font-size: 13px;" id="navigation_count">--</span>
             <div class="nagivations" style="display: flex;justify-content: space-around;">
                 
-                <button class="nav-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-skip-backward-btn" viewBox="0 0 16 16">
-                    <path d="M0 12V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2m11.21-6.907L8.5 7.028V5.5a.5.5 0 0 0-.79-.407L5 7.028V5.5a.5.5 0 0 0-1 0v5a.5.5 0 0 0 1 0V8.972l2.71 1.935a.5.5 0 0 0 .79-.407V8.972l2.71 1.935A.5.5 0 0 0 12 10.5v-5a.5.5 0 0 0-.79-.407"></path>
-                </svg></button>
+                <button class="nav-btn" id="pretrap"><img style="transform: rotate(175deg);width: 23px;filter: brightness(0) invert(1);" src="./forward.gif" alt=""></button>
                 
-                <button class="nav-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fast-forward-btn" viewBox="0 0 16 16">
-                    <path d="M8.79 5.093A.5.5 0 0 0 8 5.5v1.886L4.79 5.093A.5.5 0 0 0 4 5.5v5a.5.5 0 0 0 .79.407L8 8.614V10.5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"></path>
-                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"></path>
-                </svg></button>
+                <button class="nav-btn" id="nexttrap"><img style="width: 23px;filter: brightness(0) invert(1);" src="./forward.gif" alt=""></button>
             </div>
 
         </div>
 
     <div class="modal-footer">
-        <a class="link" href="https://darkpatterns.org">What are dark patterns?</a>
+        <a class="link" href="https://projectksecure.blogspot.com/">What are dark patterns?</a>
     </div>
 
     <script src="./js/jquery-3.7.1.js"></script>
@@ -49,7 +137,8 @@
 
 
 
-</div></body>
+</div>
+</body>
 
 </html>
 

@@ -5,6 +5,12 @@
 
 }
 
+.insite-highlight-found{
+    background-color: rgb(247, 230, 96);
+    border: 2px solid red;
+    
+}
+
 .insite-highlight .insite-highlight-body {
     font-size: 12px;
     font-weight: 150;

@@ -30,6 +30,7 @@ def main():
 
         dark = [data[i] for i in range(len(output)) if output[i] == 'Dark']
 
+
         for d in dark:
             print(d)
             
