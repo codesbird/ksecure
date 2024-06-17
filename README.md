@@ -27,10 +27,14 @@ Install the Chrome extension:
 3. Click the "Load unpacked" button.
 4. Navigate to the repository directory, and select the folder `extension` for installation
 5. Ensure that the extension is enabled, and if so, the extension has been successfully installed!
+
+## RUN THE SERVER
+Open the server folder in Visual Studio Code
+### Run    `pip install -r requirements.txt`    OR `python -m pip install -r requirements.txt`
+
+
 ## Reference
 Mathur, A., Acar, G., Friedman, M. J., Lucherini, E., Mayer, J., Chetty, M., & Narayanan, A. (2019). Dark Patterns at Scale: Findings from a Crawl of 11K Shopping Websites. Proceedings of the ACM on Human-Computer Interaction, 3(CSCW), 81.
 
-##RUN THE SERVER
-Open the server folder in Visual Studio Code
-###Run    `pip install -r requirements.txt`    OR `python -m pip install -r requirements.txt`
+
 
